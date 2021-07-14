@@ -23,7 +23,7 @@ namespace AppvNext.ObjectPicker
         public List<TItem> SelectedItems { get; set; }
 
         [Parameter]
-        public EventCallback<string> ComponentUpdated { get; set; }
+        public EventCallback ComponentUpdated { get; set; }
 
         protected TItem SelectedItem { get; set; }
 
@@ -115,7 +115,7 @@ namespace AppvNext.ObjectPicker
             }
             AllItems.Clear();
             UpdateButtonEnabledStates();
-            ComponentUpdated.InvokeAsync("").Wait();
+            ComponentUpdated.InvokeAsync().Wait();
         }
 
         protected void RemoveAllItems()
@@ -130,7 +130,7 @@ namespace AppvNext.ObjectPicker
             }
             SelectedItems.Clear();
             UpdateButtonEnabledStates();
-            ComponentUpdated.InvokeAsync("").Wait();
+            ComponentUpdated.InvokeAsync().Wait();
         }
 
         protected void AddSelectedItem()
@@ -142,7 +142,7 @@ namespace AppvNext.ObjectPicker
                 SelectedItems.Add(SelectedItem);
                 AllItems.Remove(SelectedItem);
                 UpdateButtonEnabledStates();
-                ComponentUpdated.InvokeAsync("").Wait();
+                ComponentUpdated.InvokeAsync().Wait();
             }
         }
 
@@ -155,7 +155,7 @@ namespace AppvNext.ObjectPicker
                 AllItems.Add(SelectedItem);
                 SelectedItems.Remove(SelectedItem);
                 UpdateButtonEnabledStates();
-                ComponentUpdated.InvokeAsync("").Wait();
+                ComponentUpdated.InvokeAsync().Wait();
             }
         }
 

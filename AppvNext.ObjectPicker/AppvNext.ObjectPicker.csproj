@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Carl Franklin</Authors>
+    <Company>App vNext</Company>
+    <Description>ObjectPicker is a Blazor Component that lets the user select a number of objects from a list.</Description>
+    <Copyright>Copyright © 2021 by Carl Franklin</Copyright>
   </PropertyGroup>
 
   
