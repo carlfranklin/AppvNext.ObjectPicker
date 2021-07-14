@@ -1,0 +1,83 @@
+﻿@typeparam TItem
+
+<table style="width:100%">
+    <tr>
+        <td style="width:45%;" valign="top">
+            All @ItemTypePlural<br />
+        </td>
+        <td style="width:10%;" valign="top">
+            <span>&nbsp;</span>
+        </td>
+        <td style="width:45%;" valign="top">
+            Selected @ItemTypePlural<br />
+        </td>
+    </tr>
+    <tr>
+        <td style="width:45%;" valign="top">
+            <select @ondblclick="ItemDblClickedFromAllItems"
+                    @onchange="ItemSelectedFromAllItems"
+                              size="10" style="width:100%;">
+                @foreach (var Item in AllItems)
+                {
+                    if (@ItemValue(Item) == @ItemValue(SelectedItem))
+                    {
+                        <option selected value="@ItemValue(Item)">
+                            @ItemText(Item)
+                        </option>
+                    }
+                    else
+                    {
+                        <option value="@ItemValue(Item)">
+                            @ItemText(Item)
+                        </option>
+                    }
+                }
+            </select>
+        </td>
+        <td style="width:10%;" valign="top">
+            <button @onclick="AddSelectedItem"
+                              type="button"
+                              disabled="@AddSelectedItemButtonDisabled"
+                              style="width:100%;">
+                &gt;
+            </button><br />
+            <button @onclick="@AddAllItems"
+                              type="button"
+                              style="width:100%;">
+                &gt;&gt;
+            </button><br />
+            <button @onclick="@RemoveSelectedItem"
+                              type="button"
+                              disabled="@RemoveSelectedItemButtonDisabled"
+                              style="width:100%;">
+                &lt;
+            </button><br />
+            <button @onclick="@RemoveAllItems"
+                              type="button"
+                              style="width:100%;">
+                &lt;&lt;
+            </button><br />
+        </td>
+        <td style="width:45%;" valign="top">
+            <select @ondblclick="ItemDblClickedFromSelectedItems"
+                    @onchange="ItemSelectedFromSelectedItems"
+                              size="10" style="width:100%;">
+                @foreach (var Item in SelectedItems)
+                {
+                    if (@ItemValue(Item) == @ItemValue(SelectedItem))
+                    {
+                        <option selected value="@ItemValue(Item)">
+                            @ItemText(Item)
+                        </option>
+                    }
+                    else
+                    {
+                        <option value="@ItemValue(Item)">
+                            @ItemText(Item)
+                        </option>
+                    }
+                }
+            </select>
+        </td>
+    </tr>
+</table>
