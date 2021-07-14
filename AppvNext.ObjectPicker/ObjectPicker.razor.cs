@@ -26,7 +26,7 @@ namespace AppvNext.ObjectPicker
         public EventCallback ComponentUpdated { get; set; }
 
         protected TItem SelectedItem { get; set; }
-
+        protected List<TItem> AllItemsPrivate { get; set; }
         protected bool AddSelectedItemButtonDisabled = true;
         protected bool RemoveSelectedItemButtonDisabled = true;
 
@@ -48,7 +48,10 @@ namespace AppvNext.ObjectPicker
 
         protected override void OnParametersSet()
         {
-            if (AllItems.Count > 0)
+            // make a copy of the items
+            AllItemsPrivate = AllItems.ToArray().ToList();
+
+            if (AllItemsPrivate.Count > 0)
             {
                 // remove the items that exist in SelectedItems
                 foreach (var item in SelectedItems)
@@ -59,7 +62,7 @@ namespace AppvNext.ObjectPicker
                     .ToString();
 
                     var ItemFromAllItems =
-                    (from x in AllItems
+                    (from x in AllItemsPrivate
                      where x.GetType()
                      .GetProperty(ValuePropertyName)
                      .GetValue(x, null)
@@ -68,14 +71,14 @@ namespace AppvNext.ObjectPicker
 
                     if (ItemFromAllItems != null)
                     {
-                        AllItems.Remove(ItemFromAllItems);
+                        AllItemsPrivate.Remove(ItemFromAllItems);
                     }
                 }
 
             }
-            if (AllItems.Count > 0)
+            if (AllItemsPrivate.Count > 0)
             {
-                SelectedItem = AllItems.First();
+                SelectedItem = AllItemsPrivate.First();
             }
             else if (SelectedItems.Count > 0)
             {
@@ -87,7 +90,7 @@ namespace AppvNext.ObjectPicker
         protected void ItemSelectedFromAllItems(ChangeEventArgs args)
         {
             SelectedItem =
-            (from x in AllItems
+            (from x in AllItemsPrivate
              where x.GetType()
          .GetProperty(ValuePropertyName)
          .GetValue(x, null)
@@ -99,13 +102,13 @@ namespace AppvNext.ObjectPicker
 
         protected void UpdateButtonEnabledStates()
         {
-            AddSelectedItemButtonDisabled = !AllItems.Contains(SelectedItem);
+            AddSelectedItemButtonDisabled = !AllItemsPrivate.Contains(SelectedItem);
             RemoveSelectedItemButtonDisabled = !SelectedItems.Contains(SelectedItem);
         }
 
         protected void AddAllItems()
         {
-            foreach (var Item in AllItems.ToArray())
+            foreach (var Item in AllItemsPrivate.ToArray())
             {
                 SelectedItems.Add(Item);
             }
@@ -113,7 +116,7 @@ namespace AppvNext.ObjectPicker
             {
                 SelectedItem = SelectedItems.First();
             }
-            AllItems.Clear();
+            AllItemsPrivate.Clear();
             UpdateButtonEnabledStates();
             ComponentUpdated.InvokeAsync().Wait();
         }
@@ -122,11 +125,11 @@ namespace AppvNext.ObjectPicker
         {
             foreach (var Item in SelectedItems.ToArray())
             {
-                AllItems.Add(Item);
+                AllItemsPrivate.Add(Item);
             }
-            if (AllItems.Count > 0)
+            if (AllItemsPrivate.Count > 0)
             {
-                SelectedItem = AllItems.First();
+                SelectedItem = AllItemsPrivate.First();
             }
             SelectedItems.Clear();
             UpdateButtonEnabledStates();
@@ -140,7 +143,7 @@ namespace AppvNext.ObjectPicker
                  select x).FirstOrDefault() == null)
             {
                 SelectedItems.Add(SelectedItem);
-                AllItems.Remove(SelectedItem);
+                AllItemsPrivate.Remove(SelectedItem);
                 UpdateButtonEnabledStates();
                 ComponentUpdated.InvokeAsync().Wait();
             }
@@ -148,11 +151,11 @@ namespace AppvNext.ObjectPicker
 
         protected void RemoveSelectedItem()
         {
-            if ((from x in AllItems
+            if ((from x in AllItemsPrivate
                  where ItemValue(x) == ItemValue(SelectedItem)
                  select x).FirstOrDefault() == null)
             {
-                AllItems.Add(SelectedItem);
+                AllItemsPrivate.Add(SelectedItem);
                 SelectedItems.Remove(SelectedItem);
                 UpdateButtonEnabledStates();
                 ComponentUpdated.InvokeAsync().Wait();

@@ -7,6 +7,7 @@
     <Company>App vNext</Company>
     <Description>ObjectPicker is a Blazor Component that lets the user select a number of objects from a list.</Description>
     <Copyright>Copyright © 2021 by Carl Franklin</Copyright>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   
