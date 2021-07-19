@@ -17,7 +17,7 @@
             <select @ondblclick="ItemDblClickedFromAllItems"
                     @onchange="ItemSelectedFromAllItems"
                               size="10" style="width:100%;">
-                @foreach (var Item in AllItems)
+                @foreach (var Item in AllItemsPrivate)
                 {
                     if (@ItemValue(Item) == @ItemValue(SelectedItem))
                     {
